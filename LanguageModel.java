@@ -77,23 +77,14 @@ public class LanguageModel
         current = current.next;
         }
         current = probs.getFirstN();
-        double cumulativeProbability = 0;
+        double flag = 0;
         while (current != null) 
         {
-            current.cd.p = Math.round((current.cd.count / totalchars) * 100.0) / 100.0;
-            cumulativeProbability += current.cd.p;
-            current.cd.cp = Math.round(cumulativeProbability * 100.0) / 100.0;
+            current.cd.p = ((double)current.cd.count) / totalchars;
+            current.cd.cp = current.cd.p + flag;
+            flag = current.cd.cp;
             current = current.next;
         }
-        //double flag = 0;
-        /*while (current != null) 
-        {
-        current.cd.p = (double)current.cd.count / totalchars;
-        current.cd.cp = flag + current.cd.p;
-        flag = current.cd.cp;
-        current = current.next;
-        }
-        */
 	}
 
     // Returns a random character from the given probabilities list.

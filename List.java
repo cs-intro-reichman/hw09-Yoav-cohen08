@@ -54,16 +54,16 @@ public class List
         if (size == 0) return "()";
         // Starting from the first node, iterates through this list
         // and builds the string incrementally
-        String str = "";
+        StringBuilder str = new StringBuilder("(");
         Node current = first;
         while (current != null) 
         {
-            str += current.cd; 
+            str.append(current.cd.toString()).append(" ");
             current = current.next;
-            if(current != null)str += " ";
-        } 
-        return str;
-            
+        }
+         //removes the trailing space and adds the ')'
+         str.deleteCharAt(str.length() - 1).append(")");
+         return str.toString();
     }
 
     /** Returns the index of the first CharData object in this list
