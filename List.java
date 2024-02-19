@@ -51,7 +51,7 @@ public class List
     /** GIVE Textual representation of this list. */
     public String toString() 
     {  
-        if (size == 0) return "List empty.";
+        if (size == 0) return "()";
         // Starting from the first node, iterates through this list
         // and builds the string incrementally
         String str = "";
