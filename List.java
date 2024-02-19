@@ -60,7 +60,7 @@ public class List
         {
             str += current.cd; 
             current = current.next;
-            if(current != null)str += "\n";
+            //if(current != null)str += "\n";
         } 
         return str;
             
