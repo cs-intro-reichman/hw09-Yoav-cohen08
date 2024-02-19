@@ -18,9 +18,10 @@ public class ListIterator {
     /** Returns the CharData object of the current element in this iteration,
      *  and advances the cursor to the next element.
      *  Should be called only if hasNext() is true. */
-    public CharData next() {
-        CharData cd = current.cd;
+    public CharData next() 
+    {
+        CharData CD = current.cd;
         current = current.next;
-        return cd;
+        return CD;
     }
 }
