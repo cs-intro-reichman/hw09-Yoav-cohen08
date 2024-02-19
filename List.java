@@ -139,7 +139,7 @@ public class List
     public CharData get(int index) 
     {
         Node current = first; 
-        if(index <= 0 || index > size)
+        if(index <= 0 || index >= size)
         {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
