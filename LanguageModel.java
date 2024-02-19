@@ -37,28 +37,27 @@ public class LanguageModel
 	public void train(String fileName) 
     {
         String window = "";
+        char c;
         In in = new In(fileName);
-        while (in.hasNextChar()) 
-        {
-            if (window.length() >= windowLength)  // Remove the first character when the window is full
-            {
-            window = window.substring(1);
-            }
-            char c = in.readChar();
-            window += c;
-            if (window.length() == windowLength && in.hasNextChar()) 
-            {
-                // Get the next character after the window
-                char nextChar = in.readChar();
-                List probs = CharDataMap.get(window);
-                if (probs == null) 
-                {
-                probs = new List();
-                CharDataMap.put(window, probs);
-                }
-                probs.update(nextChar);
-            }
+        for (int i = 0; i < windowLength; i++)
+        { 
+            char temp  = in.readChar();
+            window += temp;
         }
+
+        while (!in.isEmpty())
+        {
+            c = in.readChar();
+            List probs = CharDataMap.get(window);
+            if (probs == null) // Creates a new empty list, and adds (window,list) to the map
+                {
+                    probs = new List();
+                    CharDataMap.put(window, probs);
+                }
+                probs.update(c);
+                window += c;
+                window = window.substring(1);
+            }
         for(List probs : CharDataMap.values())
         {
             calculateProbabilities(probs);
@@ -101,7 +100,7 @@ public class LanguageModel
             }
             current = current.next; 
         }
-        throw new NoSuchElementException("No character found for random number " + r);
+        return '_';
     }
     /**
 	 * Generates a random text, based on the probabilities that were learned during training. 
@@ -120,21 +119,21 @@ public class LanguageModel
         {
             return initialText;
         }
-        StringBuilder generatedText = new StringBuilder(initialText);
+        String window = initialText.substring(initialText.length() - windowLength);
+        String generatedText = window;
         while (generatedText.length() < textLength) 
         {
-        String window = generatedText.substring(generatedText.length() - windowLength);  // Get the current window, which is the last 'windowLength' characters of the generated text
-        List charList = CharDataMap.get(window);                                         // Get the list of possible characters that can follow the current window
-        if (charList == null)  // If the window is not found in the map, stop the process
-        {
-            break;
-            //return "The text that was generated so far.";
+            List charList = CharDataMap.get(window);                                         // Get the list of possible characters that can follow the current window
+            if (charList == null)  // If the window is not found in the map, stop the process
+            {
+                break;
+            }
+             // Use the getRandomChar method to select a random character based on the probabilities
+            char nextChar = getRandomChar(charList);
+            generatedText += nextChar;
+            window = generatedText.substring(generatedText.length() - windowLength);
         }
-        // Use the getRandomChar method to select a random character based on the probabilities
-        char nextChar = getRandomChar(charList);
-        generatedText.append(nextChar);
-        }
-        return generatedText.toString();
+        return generatedText;
 	}
 
     /** Returns a string representing the map of this language model. */
