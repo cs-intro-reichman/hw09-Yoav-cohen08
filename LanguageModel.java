@@ -121,7 +121,7 @@ public class LanguageModel
         }
         String window = initialText.substring(initialText.length() - windowLength);
         String generatedText = window;
-        while (generatedText.length() < textLength) 
+        while (generatedText.length() < (textLength + windowLength)) 
         {
             List charList = CharDataMap.get(window);                                         // Get the list of possible characters that can follow the current window
             if (charList == null)  // If the window is not found in the map, stop the process
