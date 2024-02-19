@@ -139,11 +139,11 @@ public class List
     public CharData get(int index) 
     {
         Node current = first; 
-        if(index <= 0 || index >= size)
+        if(index < 0 || index >= size)
         {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
-        for(int i = 1; i <= index; i++)
+        for(int i = 0; i < index; i++)
         {
             current = current.next;
         }
